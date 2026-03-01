@@ -119,10 +119,12 @@ int main(void) {
         if (surfs[i] & ~0xFFFu) { gtt_addr = surfs[i] & ~0xFFFu; }
     printf("Using GTT addr: 0x%lx\n", gtt_addr);
 
-    /* Write GTT offset to file so paint.ko can be loaded with it */
+    /* Write GTT offset and our PID so run.sh can signal us directly */
     FILE *f = fopen("/tmp/gtt_off", "w");
     fprintf(f, "0x%lx\n", gtt_addr); fclose(f);
-    printf("GTT offset written to /tmp/gtt_off — loading module now\n");
+    f = fopen("/tmp/drm_setup.pid", "w");
+    fprintf(f, "%d\n", getpid()); fclose(f);
+    printf("ready\n");
     fflush(stdout);
 
     /* Hold CRTC open while module runs */
