@@ -1,0 +1,3 @@
+@echo -off
+echo paint3_efi starting...
+fs0:\EFI\paint\paint3.efi
